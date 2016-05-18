@@ -111,7 +111,7 @@ itorch.image(image.scale(im, 256, 256)) -- redimensiona apenas para mostrar a im
 
 
 ```lua
--- Redimenciona e normaliza a imagem
+-- redimensiona e normaliza a imagem
 function preprocess(im, img_mean)
   -- rescale the image
   local im3 = image.scale(im,224,224,'bilinear')
