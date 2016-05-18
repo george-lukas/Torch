@@ -1,25 +1,24 @@
 
 ## Tensor
-The ___Tensor___ class is probably the most important class in ___Torch___. Almost every package depends on this class. It is __the__ class for handling numeric data. 
+A classe ___Tensor___ classe é provavelmente o mais importante na classe ___Torch___. Quase todos os pacotes depende dessa classe. É A ( __The__ ) classe para a manipulação de dados numéricos 
 
-As with pretty much anything in ___Torch___, tensors are serializable and deserializable. What that means is that you can convert a tensor to a string (and save it as a file to disk), and load it back.
+Tal como acontece com praticamente qualquer coisa em ___Torch___, tensores são serializáveis e desejáveis. o que isso significa é que você pode converter um tensor para uma cadeia (que você pode guardá-lo em um arquivo no disco), e carregá-lo de volta.
+### Matriz multi-dimensional
+Um ___Tensor___ é potencialmente uma matriz multi-dimensional. O número de dimensões é ilimitado, que pode ser criada usando ___LongStorage___ com mais dimensões.
 
-### Multi-dimensional matrix
-A ___Tensor___ is a potentially multi-dimensional matrix. The number of dimensions is unlimited that can be created using ___LongStorage___ with more dimensions.
-
-Example: 
+Exemplo: 
 
 
 ```
---- creation of a 4D-tensor 4x5x6x2
+--- Criação de um 4D-tensor 4x5x6x2
 z = torch.Tensor(4,5,6,2)
---- for more dimensions, (here a 6D tensor) one can do:
+--- para mais dimensões, (aqui um 6D tensor) que pode ser definido como:
 s = torch.LongStorage(6)
 s[1] = 4; s[2] = 5; s[3] = 6; s[4] = 2; s[5] = 7; s[6] = 3;
 x = torch.Tensor(s)
 ```
 
-The number of dimensions of a Tensor can be queried by ___nDimension()___ or ___dim()___. Size of the i-th dimension is returned by ___size(i)___. A ___LongStorage___ containing all the dimensions can be returned by ___size()___.
+O número de dimensões de um Tensor pode ser consultado pelo ___nDimension()___ ou ___dim()___. O tamanho da i-ézima dimensão é retornada por ___size(i)___. ___LongStorage___ contém todas as dimensões que podem ser retornadas por ___size()___.
 
 
 ```
@@ -55,15 +54,15 @@ print(x:size())
 
 
 
-### Internal data representation
-The actual data of a ___Tensor___ is contained into a ___Storage___. It can be accessed using ___storage()___. While the memory of a ___Tensor___ has to be contained in this unique ___Storage___, it might not be __contiguous__: the first position used in the ___Storage___ is given by ___storageOffset()___ (starting at 1). And the jump needed to go from one element to another element in the i-th dimension is given by ___stride(i)___. In other words, given a 3D tensor
+### Representação de dados interna
+Os dados reais de um ___Tensor___ está contido numa ___Storage___. Ele pode ser acessado usando ___storage()___. Enquanto a memória de um ___Tensor___ tem de ser contida neste única ___Storage___, ela pode não ser __contígua__: a primeira posição utilizado no ___Storage___ é dado por ___storageOffset()___ (starting at 1). E o salto necessário para ir de um elemento para outro elemento na dimensão i-th é dada por ___stride(i)___. Por outras palavras, dado um 3D Tensor
 
 
 ```
 x = torch.Tensor(7,7,7)
 ```
 
-accessing the element (3,4,5) can be done by
+acessando os elementos (3,4,5) pode ser feito atravéz de:
 
 
 ```
@@ -78,7 +77,7 @@ x[3][4][5]
 
 
 
-or equivalently under the hood (but slowly!)
+ou de modo equivalente "under the hood" (Porém mais lento!)
 
 
 ```
@@ -97,13 +96,13 @@ x:storage()[x:storageOffset()
 
 
 
-One could say that a ___Tensor___ is a particular way of viewing a ___Storage___: a ___Storage___ only represents a chunk of memory, while the ___Tensor___ interprets this chunk of memory as having dimensions:
+Pode-se dizer que uma ___Tensor___ é um modo particular de ver um ___Storage___: um ___Storage___ representa apenas um pedaço de memória, quando o ___Tensor___ interpreta este pedaço de memória como tendo dimensões:
 
 
 ```
 x = torch.Tensor(4,5)
 s = x:storage()
-for i=1,s:size() do -- fill up the Storage
+for i=1,s:size() do -- preenchendo o armazenamento
     s[i] = i
 end
 print(x)
@@ -122,7 +121,7 @@ print(x)
 
 
 
-Note also that in Torch elements in the same row [elements along the last dimension] are contiguous in memory for a Tensor:
+Note-se também que, em elementos do Torch na mesma linha [elementos ao longo da última dimensão] são contíguas na memória por um Tensor:
 
 
 ```
@@ -150,24 +149,24 @@ print(x)
 
 
 ```
-x:stride() -- element in the last dimension are contiguous!
+x:stride() --Elemento na última dimensão são contíguos!
 ```
 
-This is exactly like in __C__ (and not __Fortran__).
+Isso é exatamente como em __C__ (e não __Fortran__).
 
-### Tensors of different types
-Actually, several types of Tensor exist:
-* ByteTensor -- contains unsigned chars
-* CharTensor -- contains signed chars
-* ShortTensor -- contains shorts
-* IntTensor -- contains ints
-* FloatTensor -- contains floats
-* DoubleTensor -- contains doubles
+### Tensors de tipos de diferentes
+Na verdade, existem vários tipos de Tensor:
+* ByteTensor -- contém unsigned chars
+* CharTensor -- contém signed chars
+* ShortTensor -- contém shorts
+* IntTensor -- contém ints
+* FloatTensor -- contém floats
+* DoubleTensor -- contém doubles
 
-Most numeric operations are implemented only for ___FloatTensor___ and ___DoubleTensor___. Other ___Tensor___ types are useful if you want to save memory space.
+A maioria das operações numéricas são implementadas apenas para ___FloatTensor___ e ___DoubleTensor___. Outros tipos de ___Tensor___ são úteis se você quiser economizar espaço de memória.
 
-### Default Tensor type
-For convenience, an alias ___torch.Tensor___ is provided, which allows the user to write type-independent scripts, which can then ran after choosing the desired ___Tensor___ type with a call like
+### Tipo padrão de Tensor
+Por conveniência, um apelido é dado para ___torch.Tensor___, que permite ao usuário escrever scripts independente do tipo, que pode, em seguida, que pode ser rodado depois de escolher tipo ___Tensor___ desejado numa uma chamada como
 
 
 ```
@@ -182,7 +181,7 @@ torch.setdefaulttensortype('torch.FloatTensor')
 
 
 
-See ___torch.setdefaulttensortype___ for more details. By default, the alias "points" to ___torch.DoubleTensor___.
+Veja ___torch.setdefaulttensortype___ para mais detalhes. Por padrão, é dado o apelido  "points" para ___torch.DoubleTensor___.
 
 
 ```
