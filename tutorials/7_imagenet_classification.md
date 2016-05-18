@@ -100,7 +100,7 @@ itorch.image(net:get(1).weight)
 
 ```lua
 im = image.load(image_name)
-itorch.image(image.scale(im, 256, 256)) -- rescale just to show the image
+itorch.image(image.scale(im, 256, 256)) -- redimensiona apenas para mostrar a imagem
 ```
 
 
