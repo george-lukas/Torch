@@ -1,23 +1,22 @@
 
-Imagenet classification with Torch7 demo
+Demonstração de classificação Imagenet com o Torch7
 =========
 
-Will be using Network-in-Network trained in Torch-7 with batch normalization
+Estaremos usando Network-in-Network treinado no Torch7 com a normalização em lotes.
 
-more information on it here
+maiores informações sobre isto aqui
 https://gist.github.com/szagoruyko/0f5b4c5e2d2b18472854
 
-Importing image and nn packages:
-
+Importando os pacotes image e nn:
 
 ```lua
 require 'image'
 require 'nn'
 ```
 
-### Downloading image and network
+### Download da imagem e  da rede
 
-Will download goldfish image from wikipedia (need `wget` at this point)
+Faremos o download da imagens goldfish a partir da wikipedia (precisaremos do `wget` neste ponto)
 
 
 ```lua
@@ -29,7 +28,7 @@ if not paths.filep(image_name) then os.execute('wget '..image_url)   end
 if not paths.filep(network_name) then os.execute('wget '..network_url)   end
 ```
 
-### Load network and show it's structure
+### Carregando a rede e mostrando sua estrutura
 
 
 ```lua
@@ -42,7 +41,9 @@ print(tostring(net))
 
 
     nn.Sequential {
-      [input -> (1) -> (2) -> (3) -> (4) -> (5) -> (6) -> (7) -> (8) -> (9) -> (10) -> (11) -> (12) -> (13) -> (14) -> (15) -> (16) -> (17) -> (18) -> (19) -> (20) -> (21) -> (22) -> (23) -> (24) -> (25) -> (26) -> (27) -> (28) -> (29) -> (30) -> output]
+      [input -> (1) -> (2) -> (3) -> (4) -> (5) -> (6) -> (7) -> (8) -> (9) -> (10) -> (11) -> (12) -> (13) -> 
+      (14) -> (15) -> (16) -> (17) -> (18) -> (19) -> (20) -> (21) -> (22) -> (23) -> (24) -> (25) -> (26) -> 
+      (27) -> (28) -> (29) -> (30) -> output]
       (1): nn.SpatialConvolution(3 -> 96, 11x11, 4,4, 5,5)
       (2): nn.ReLU
       (3): nn.SpatialConvolution(96 -> 96, 1x1)
@@ -78,8 +79,7 @@ print(tostring(net))
 
 
 
-visualize the weights of conv1
-
+visualizando os pesos de conv1
 
 ```lua
 itorch.image(net:get(1).weight)
@@ -97,7 +97,7 @@ itorch.image(net:get(1).weight)
 ![png](7_imagenet_classification_files/7_imagenet_classification_8_1.png)
 
 
-### Loading the image
+### Carregando a imagem
 
 
 ```lua
@@ -109,15 +109,15 @@ itorch.image(image.scale(im, 256, 256)) -- rescale just to show the image
 ![png](7_imagenet_classification_files/7_imagenet_classification_10_0.png)
 
 
-### Have to resize and normalize the image
+### Temos que redimensionar e normalizar a imagem
 
 
 ```lua
--- Rescales and normalizes the image
+-- Redimenciona e normaliza a imagem
 function preprocess(im, img_mean)
   -- rescale the image
   local im3 = image.scale(im,224,224,'bilinear')
-  -- subtract imagenet mean and divide by std
+  -- subtrai a média de imagenet e divide por std
   for i=1,3 do im3[i]:add(-img_mean.mean[i]):div(img_mean.std[i]) end
   return im3
 end
@@ -130,9 +130,8 @@ itorch.image(I)
 ![png](7_imagenet_classification_files/7_imagenet_classification_12_0.png)
 
 
-### Loading synset
-Loads mapping from net outputs to human readable labels
-
+### Carregando synset
+Carregando mapeamento saídas de __net__ para marcadores legíveis
 
 ```lua
 synset_words = {}
@@ -141,8 +140,8 @@ for line in io.lines'7_imagenet_classification/synset_words.txt' do
 end
 ```
 
-### Propagate through the network
-and sort outputs in decreasing order and show 5 best classes
+### Propagando através da rede
+e classificar saídas em ordem decrescente e mostrar 5 melhores classes
 
 
 ```lua
