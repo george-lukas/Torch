@@ -1,6 +1,6 @@
 
 ## Tensor
-A classe ___Tensor___ classe é provavelmente o mais importante na classe ___Torch___. Quase todos os pacotes depende dessa classe. É A ( __The__ ) classe para a manipulação de dados numéricos 
+A classe ___Tensor___ classe é provavelmente o mais importante na classe ___Torch___. Quase todos os pacotes depende dessa classe. É __A__ classe para a manipulação de dados numéricos 
 
 Tal como acontece com praticamente qualquer coisa em ___Torch___, tensores são serializáveis e desejáveis. o que isso significa é que você pode converter um tensor para uma cadeia (que você pode guardá-lo em um arquivo no disco), e carregá-lo de volta.
 ### Matriz multi-dimensional
